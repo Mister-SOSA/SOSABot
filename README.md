@@ -134,7 +134,7 @@ At random times throughout the day, the bot will send an Airdrop to a random cha
 *Once claimed, the user is rewarded with the contents of the airdrop, and it is no longer claimable.*
 
 ## Web Application
-Along with the bot itself, a web application is also served via Flask. This application serves as something of a "Dashboard" for users to interact with.
+Along with the bot itself, a web application is also served via Flask. This application serves as something of a "Dashboard" for users to interact with. Users authenticate to the app by using Discord OAuth, where my script will pull their Discord information to accordingly interact with the database.
 The app is built using Flask, vanilla HTML/CSS/JS, Jinja2, SQL, etc.
 It's approaching Christmas at the time of this documentation, so excuse our falling snow and candycanes in the screenshots.
 
@@ -184,3 +184,22 @@ This project was started in early November of 2022, when I couldn't figure out h
 
 It has certainly come a long way.
 
+##Technologies Used
+- Python
+- PyCord
+- SQLite3
+- Async
+- APIs
+- OOP
+- Flask
+- Jinja2
+- HTML
+- CSS
+- JavaScript
+- Threading
+- Photoshop
+- Illustrator
+- AWS EC2
+- Ubuntu
+- OAuth2
+- SocketIO
