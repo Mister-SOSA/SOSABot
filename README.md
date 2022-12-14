@@ -118,6 +118,21 @@ Once the reward is calculated, the user will receive a direct message notifying 
 Each user is given a tycoon. They can upgrade their tycoon by spending Monkeycoins on it, in exchange for a daily payout + other perks, like shop discounts and auto-pickpockets.
 Users can upgrade their tycoon via the web application.
 
+#### Airdrops
+At random times throughout the day, the bot will send an Airdrop to a random channel. The Airdrop takes 30 seconds to land, which gives users ample time to open Discord and fight for it. The dropped crate can contain rare items, coins, etc.
+
+![Airdrop Image 1](https://cdn.discordapp.com/attachments/929674655801958400/1052663083966927010/image.png)
+
+*The embed plays a gif displaying a supply plane dropping a crate*
+
+![Airdrop Image 2](https://cdn.discordapp.com/attachments/929674655801958400/1052663161926471790/image.png)
+
+*Once the airdrop lands, it will sit in this state until it is claimed, with no timeout.*
+
+![Airdrop Image 3](https://cdn.discordapp.com/attachments/929674655801958400/1052663197666127892/image.png)
+
+*Once claimed, the user is rewarded with the contents of the airdrop, and it is no longer claimable.*
+
 ## Web Application
 Along with the bot itself, a web application is also served via Flask. This application serves as something of a "Dashboard" for users to interact with.
 The app is built using Flask, vanilla HTML/CSS/JS, Jinja2, SQL, etc.
