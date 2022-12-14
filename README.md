@@ -184,7 +184,7 @@ This project was started in early November of 2022, when I couldn't figure out h
 
 It has certainly come a long way.
 
-##Technologies Used
+## Technologies Used
 - Python
 - PyCord
 - SQLite3
