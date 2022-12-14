@@ -3,33 +3,33 @@ A Discord bot written using PyCord. Features moderation, economy, and more. One 
 
 > :warning: An abundance of this code is written specifically for my use case. Many of the features are specific to my guild and database schema. This repo is mostly a showcase of what is possible with the Discord API. Feel free to pull any features that you want to use in your own bot.
 
-# Features
+# 💫 Features
 ## Application Commands
 This bot is up to standard with the newest features of the Discord API (utilizes Views, Discord UI, Context Commands, etc.)
 Commands are invoked with `/<command>`, or with context menus where applicable.
 
-## Moderation
+## 🛡 Moderation
 Let's get the boring stuff out of the way. The bot has application commands for all the usual moderation tasks, like kicking, banning, etc. It also features a few additional administration commands pertaining to the economy system (more on that later).
 
-## Economy
+## 💰 Economy
 Both the bot and the Flask application sustain the made up pseudo-economy based on "Monkeycoin."
 The Monkeycoin is the currency used to play gambling games, purchase items, pay other users, and more.
 The theme came from a Dall-E generated image of King Kong throwing cash in the air.
 
-### Payments
+### 💵 Payments
 Users can pay each other by invoking the `/pay` command. The command will perform the appropriate checks to ensure that the transaction is valid, and will manipulate the database accordingly.
 
 ![Pay Command Example](https://cdn.discordapp.com/attachments/929674655801958400/1052623781178376192/image.png)
 
 Users may also request money from other users by invoking the `/request` command.
 
-### Gambling
+### 🎲 Gambling
 As with any good economy, there must be some form of gambling. The bot features several casino games such as
 Crash, Blackjack, Horse Racing, and more. To initiate a gamble, a user can simply invoke `/gamble`. This command, among others, utilizes [discord.Option.autocomplete](https://docs.pycord.dev/en/stable/api/application_commands.html#discord.Option.autocomplete) to populate a list of valid games.
 
 ![Autocomplete Example](https://cdn.discordapp.com/attachments/929674655801958400/1052625167152586762/image.png)
 
-#### Screenshots
+#### 🖼 Screenshots
 
 ![Horse Racing](https://cdn.discordapp.com/attachments/929674655801958400/1052625597286858752/image.png)
 
@@ -43,7 +43,7 @@ Crash, Blackjack, Horse Racing, and more. To initiate a gamble, a user can simpl
 
 *Example of Crash, made using updating embeds*
 
-### Command Tolls
+### 🪙 Command Tolls
 
 There are some commands that shouldn't be spammed all the time. For instance, I have written a command which connects to OpenAI's Dall-E to generate images based on text. This API costs me money, so to prevent users from overdoing it, they must spend 100 of their hard earned Monkeycoins to use the command.
 
@@ -52,7 +52,7 @@ There are some commands that shouldn't be spammed all the time. For instance, I 
 This obviously does not negate the cost to me, but it certainly alleviates some of it.
 This can be applied to any command.
 
-### Item Exchange
+### 🔀 Item Exchange
 
 For any economy to work, there must be purchasable items to reinforce the value of the currency.
 I have created an assortment of items that can be purchased, sold, traded, and crafted. Many of the items perform some sort of function, while others are simply ingredients for larger items or are sellable for profit.
@@ -81,7 +81,7 @@ Like the commands, items also use the newest Discord API features like Discord U
 
 *An example of what happens when `/use ICBM` is invoked*
 
-### Other forms of income
+### 📥 Other forms of income
 
 #### Pickpocketing
 One user may attempt to pickpocket another user by invoking `/pickpocket`, or by using the context menu under another user:
@@ -133,7 +133,7 @@ At random times throughout the day, the bot will send an Airdrop to a random cha
 
 *Once claimed, the user is rewarded with the contents of the airdrop, and it is no longer claimable.*
 
-## Web Application
+## 💻 Web Application
 Along with the bot itself, a web application is also served via Flask. This application serves as something of a "Dashboard" for users to interact with. Users authenticate to the app by using Discord OAuth, where my script will pull their Discord information to accordingly interact with the database.
 The app is built using Flask, vanilla HTML/CSS/JS, Jinja2, SQL, etc.
 It's approaching Christmas at the time of this documentation, so excuse our falling snow and candycanes in the screenshots.
