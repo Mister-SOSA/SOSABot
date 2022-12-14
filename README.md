@@ -18,6 +18,7 @@ The theme came from a Dall-E generated image of King Kong throwing cash in the a
 
 ### Payments
 Users can pay each other by invoking the `/pay` command. The command will perform the appropriate checks to ensure that the transaction is valid, and will manipulate the database accordingly.
+
 ![Pay Command Example](https://cdn.discordapp.com/attachments/929674655801958400/1052623781178376192/image.png)
 
 Users may also request money from other users by invoking the `/request` command.
