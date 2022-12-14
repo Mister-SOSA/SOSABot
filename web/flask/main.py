@@ -28,14 +28,14 @@ log = logging.getLogger('werkzeug')
 log.addFilter(HealthCheckFilter())
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = '8f42a73054b1749f8f58848be5e6502c'
+app.config["SECRET_KEY"] = 'key'
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
 socketio = SocketIO(app)
 
 app.config["DISCORD_CLIENT_ID"] = 793672883716358225
-app.config["DISCORD_CLIENT_SECRET"] = "DTYn4UiOggIJsuze6Y1axeKwK8Ccwwut"
+app.config["DISCORD_CLIENT_SECRET"] = "secret"
 app.config["DISCORD_REDIRECT_URI"] = "http://URL.NET/callback/"
-app.config["DISCORD_BOT_TOKEN"] = "NzkzNjcyODgzNzE2MzU4MjI1.GZHlrU.udCdDeAKzFXYByMkB3_zVIaosQrQFO4Us6tjyQ"
+app.config["DISCORD_BOT_URL.NET"] = "URL.NET"
 
 shop_investor_level = item_db.fetch_tycoon_level_by_name('Shop Investor')
 
