@@ -32,12 +32,15 @@ Crash, Blackjack, Horse Racing, and more. To initiate a gamble, a user can simpl
 #### Screenshots
 
 ![Horse Racing](https://cdn.discordapp.com/attachments/929674655801958400/1052625597286858752/image.png)
+
 *Example of a Horse Race, made with updating embeds and `Racehorse` objects*
 
 ![Blackjack](https://cdn.discordapp.com/attachments/929674655801958400/1052625857212059668/image.png)
+
 *Example of Blackjack, made using updating embeds and PIL*
 
 ![Crash](https://cdn.discordapp.com/attachments/929674655801958400/1052626846585454693/image.png)
+
 *Example of Crash, made using updating embeds*
 
 ### Command Tolls
@@ -75,6 +78,7 @@ If the item has some sort of actual function, it will be performed. Otherwise, i
 Like the commands, items also use the newest Discord API features like Discord UI.
 
 ![I.C.B.M. Usage](https://cdn.discordapp.com/attachments/929674655801958400/1052630352151187466/image.png)
+
 *An example of what happens when `/use ICBM` is invoked*
 
 ### Other forms of income
@@ -88,12 +92,15 @@ Once a pickpocket is initiated, an embed will appear, and the victim will be not
 If the victim fails to stop the pickpocket, the attacker is rewarded with a random amount of the victim's total balance, between 3% and 8%.
 
 ![Example 1](https://media.discordapp.net/attachments/929674655801958400/1052632893928788028/image.png)
+
 *Example of an ongoing pickpocket*
 
 ![Example 2](https://cdn.discordapp.com/attachments/929674655801958400/1052633197155995698/image.png)
+
 *Example of a successful pickpocket*
 
 ![Example 3](https://cdn.discordapp.com/attachments/929674655801958400/1052654704800313355/image.png)
+
 *Example of the direct message you receive when being pickpocketted.*
 
 #### Game APIs
@@ -104,6 +111,7 @@ The match data is then passed through some scrutiny to assure that the game mode
 Once the reward is calculated, the user will receive a direct message notifying them of their earnings:
 
 ![Valorant Match Reward](https://cdn.discordapp.com/attachments/929674655801958400/1052631326672572486/image.png)
+
 *There is a known bug where the embed is missing some calculations, and therefore does not accurately reflect the total amount received. It's on the todo list.*
 
 #### Tycoon
@@ -139,6 +147,7 @@ An obvious Craigslist knockoff where users can sell and trade items. (The page i
 The main dashboard where users can see stats about themselves and manage their inventories. Includes visuals built with Chart.js
 
 ![Me Image 1](https://cdn.discordapp.com/attachments/929674655801958400/1052658390939209828/image.png)
+
 ![Me Image 2](https://cdn.discordapp.com/attachments/929674655801958400/1052658832427462758/image.png)
 
 ### Christmas
