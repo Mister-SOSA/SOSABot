@@ -142,8 +142,9 @@ The main dashboard where users can see stats about themselves and manage their i
 ### Christmas
 A special page which can be accessed by clicking the little sign at the bottom right corner of any page.
 I've set up a little Christmas tree with gifts underneath for each one of my friends. They can only be opened after Christmas.
+Everything is animated and audio coordinated, built on top of a Canvas.
 
-![Christmas Image](https://cdn.discordapp.com/attachments/929674655801958400/1052660218305200138/Animation.gif)
+![Christmas Image](https://cdn.discordapp.com/attachments/929674655801958400/1052661069719543900/image.png)
 
 ### Additional Admin Tools
 There are some specific pages only available to me for managing other user inventories, viewing all transactions, etc
