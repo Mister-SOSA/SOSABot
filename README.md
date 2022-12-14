@@ -175,3 +175,12 @@ Everything is animated and audio coordinated, built on top of a Canvas.
 ### Additional Admin Tools
 There are some specific pages only available to me for managing other user inventories, viewing all transactions, etc
 
+# Footnote
+This project has been a joy to write (although the code has certainly gotten out of control in some areas). 
+At the time of writing, there have been over 2,500 transactions made in Monkeycoin (holy crap).
+This project was started in early November of 2022, when I couldn't figure out how to get the bot to respond to me:
+
+![Screenshot 1](https://cdn.discordapp.com/attachments/929674655801958400/1052665221010968726/image.png)
+
+It has certainly come a long way.
+
