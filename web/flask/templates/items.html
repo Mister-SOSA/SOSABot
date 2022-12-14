@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/items_assets/styles.css') }}">
+
+    <title>SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        {% for item in items %}
+        <div class="item-card">
+            <div class="item-header">
+                <div class="item-emoji">
+                    {{item['item_emoji']}}
+                </div>
+            </div>
+            <div class="item-info">
+                <div class="item-name">
+                    {{item['item_name']}}
+                </div>
+                <div class="item-rarity">
+                    {{item['item_rarity']}}
+                </div>
+                <div class="item-description">
+                    {{item['item_description']}}
+                </div>
+                <div class="buyable">
+                    Buyable: {{item['buyable']}}
+                </div>
+                <div class="craftable">
+                    Craftable: {{item['craftable']}}
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+
+
+</body>
+
+</html>
+
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

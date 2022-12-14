@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/stats_assets/stats_styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>Stats | SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+
+    <div class="content">
+        <div class="cards-container">
+            <div class="card" id="card1">
+                <table class="leaderboard-table sortable">
+                    <thead>
+                        <tr class="leaderboard-table-header-row">
+                            <th class="leaderboard-table-header position-header">#</th>
+                            <th class="leaderboard-table-header username-header fitcon">Username</th>
+                            <th class="leaderboard-table-header balance-header fitcon">Balance</th>
+                            <th class="leaderboard-table-header winnings-header fitcon">Winnings</th>
+                            <th class="leaderboard-table-header favorite-header fitcon">Favorite Game</th>
+                            <th class="leaderboard-table-header tycoon-header fitcon">Tycoon Level</th>
+                            <th class="leaderboard-table-header top-income-header fitcon">Top Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr class="leaderboard-table-entry">
+                            {% if loop.index == 1 %}
+                            <td class="leaderboard-table-entry-field field-rank">🥇</td>
+                            {% elif loop.index == 2 %}
+                            <td class="leaderboard-table-entry-field field-rank">🥈</td>
+                            {% elif loop.index == 3 %}
+                            <td class="leaderboard-table-entry-field field-rank">🥉</td>
+                            {% else %}
+                            <td class="leaderboard-table-entry-field field-rank">{{ loop.index }}.</td>
+                            {% endif %}
+                            <td class="leaderboard-table-entry-field field-username">{{ user[0] }}</td>
+                            <td class="leaderboard-table-entry-field field-balance"><span>{%include 'coin.html' %} {{
+                                    "{:,}".format(user[4])}}</span> </td>
+                            <td class="leaderboard-table-entry-field field-winnings"><span>{%include 'coin.html' %} {{
+                                    "{:+,}".format(user[5])}}</span></td>
+                            <td class="leaderboard-table-entry-field field-favorite-game">{{ user[16] }}</td>
+                            <td class="leaderboard-table-entry-field field-tycoon-level">{{ user[11] }}</td>
+                            <td class="leaderboard-table-entry-field field-top-income-source">{{ user[17]|title }}
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card" id="card2">
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

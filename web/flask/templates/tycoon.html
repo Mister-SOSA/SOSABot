@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/tycoon_assets/tycoon_styles.css') }}">
+
+    <title>SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        <div class="tycoon-items-container">
+            {% for item in tycoon_items %}
+            {% if tycoon_items[item].item_id|int in tycoon_entitlements %}
+            <div item-id={{tycoon_items[item].item_id}} class="tycoon-item owned">
+                {% elif tycoon_items[item].item_id|int > (tycoon_entitlements[-1] + 1) %}
+                <div item-id={{tycoon_items[item].item_id}} class="tycoon-item not-owned redacted">
+                    {%else%}
+                    <div item-id={{tycoon_items[item].item_id}} class="tycoon-item not-owned">
+                        {% endif %}
+
+                        <div class="tycoon-item-emoji-container">
+                            <div class="tycoon-item-emoji">{{ tycoon_items[item].item_emoji }}</div>
+                        </div>
+                        <div class="item-info-container">
+                            <div class="tycoon-tier-label text">Tier {{ tycoon_items[item].item_id }}</div>
+                            <div class="tycoon-item-name text">{{ tycoon_items[item].item_name }}</div>
+                            <div class="tycoon-item-description text">{{ tycoon_items[item].item_description }}</div>
+                            {% if tycoon_items[item].item_type == 'UPGRADE' %}
+
+                            <div class="tycoon-item-payout-container text">
+                                <div class="tycoon-item-payout-title text">New Payout:</div>
+                                <div class="tycoon-item-payout text">{% include 'coin.html' %}{{
+                                    tycoon_items[item].payout_amount
+                                    }} / day
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if tycoon_items[item].item_id|int in tycoon_entitlements %}
+                        <div class="upgrade-button-container">
+                            <button item-id={{tycoon_items[item].item_id}} class="upgrade-button owned">Owned</button>
+                            <div class="tycoon-item-price">{% include 'coin.html' %} {{tycoon_items[item].item_price }}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="upgrade-button-container">
+                            <button item-id={{tycoon_items[item].item_id}}
+                                class="upgrade-button current">Upgrade</button>
+                            <div class="tycoon-item-price">{% include 'coin.html' %} {{tycoon_items[item].item_price }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+</body>
+
+</html>
+
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var my_element = document.querySelectorAll(".not-owned")[ 0 ];
+        console.log(my_element);
+
+        my_element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".upgrade-button").click(function () {
+            if ($(this).hasClass("owned")) {
+                return;
+            }
+
+            var item_id = $(this).attr("item-id");
+            console.log(item_id);
+            let r = fetch('/tycoon/transaction', {
+                method: 'POST',
+                headers: {
+                    'user_id': '{{ user_id }}',
+                    'item_id': item_id,
+                }
+            }).then((response) => {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                const transactionResponse = (response.headers.get('transaction'));
+                const transactionMessage = (response.headers.get('message'));
+
+                if (transactionResponse == 'SUCCESS') {
+
+                    var item_element_new = $(`.tycoon-item[item-id=${parseInt(item_id) + 1}]`);
+                    item_element_new.removeClass("redacted");
+
+                    var item_element = $(`.tycoon-item[item-id=${item_id}]`);
+                    var button_element = item_element.find(".upgrade-button");
+                    item_element.addClass("owned");
+                    button_element.addClass("owned");
+                    button_element.text("Owned");
+                    button_element.removeClass("current");
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: transactionMessage,
+
+                    });
+
+
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: transactionMessage
+                    });
+                }
+            });
+        });
+    });
+</script>

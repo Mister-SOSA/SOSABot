@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='shop_assets/shop_styles.css') }}">
+    <script src="{{ url_for('static', filename='/shop_assets/shop.js') }}"></script>
+
+    <title>Shop | SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+    </div>
+
+    <div class="content">
+        <div class="content-body-container">
+            {% if tycoon_level >= 6 %}
+            <div class="discount-active-label">
+                🏷️ "Frequent Shopper" Perk is Active. All items are 10% off.
+            </div>
+            {% endif %}
+            <div class="shop-container">
+                {% for item in shop_items %} {% if shop_items[item].ITEM_STATUS == "ACTIVE" %}
+                <div item-id={{shop_items[item].ITEM_ID}}
+                    class="shop-item-container card-{{shop_items[item].ITEM_RARITY}}">
+                    <div class="shop-item {{shop_items[item].ITEM_RARITY}}">
+                        <div class="shop-item-image icon-{{shop_items[item].ITEM_RARITY}}">
+                            <span id="item-emoji">{{shop_items[item].ITEM_EMOJI}}</span>
+                        </div>
+                        <div class="shop-item-info">
+                            <h1 class="shop-item-title">{{shop_items[item].ITEM_NAME}}</h1>
+                            <h3 class="shop-item-rarity rarity-label-{{shop_items[item].ITEM_RARITY}}">
+                                {{shop_items[item].ITEM_RARITY}}</h3>
+                            <p class="shop-item-description">{{shop_items[item].ITEM_DESCRIPTION}}</p>
+                        </div>
+                        <div class="shop-item-buttons">
+                            {% if tycoon_level >= 6 %}
+                            <p class="discount-label">(-10%)</p>
+                            {% endif %}
+                            <p class="shop-item-price">{% include 'coin.html' %} <span
+                                    class="price-value">{{shop_items[item].ITEM_PRICE}}</span></p>
+                            <div class="quantity-container">
+                                <p class="shop-item-quantity" id="qty-item-{{shop_items[item].ITEM_ID}}">
+                                    {{shop_items[item].ITEM_QUANTITY}}</p>
+                                <p>Left</p>
+                            </div>
+                            {% if shop_items[item].ITEM_QUANTITY > 0 and shop_items[item].BUYABLE == "TRUE" %}
+                            <div class="quantity-input-container">
+                                <span class="quantity-button disabled" id="quantity-button-minus">-</span>
+                                <span id="quantity-input-text">1</span>
+                                <span class="quantity-button" id="quantity-button-plus">+</span>
+                            </div>
+                            <a item-id={{shop_items[item].ITEM_ID}} class="ui-button buy-button">Buy</a>
+                            {% elif shop_items[item].ITEM_QUANTITY == 0 %}
+                            <a item-id={{shop_items[item].ITEM_ID}} class="ui-button buy-button disabled red-button">Out
+                                of Stock</a>
+                            {% elif shop_items[item].BUYABLE == "FALSE" %}
+                            <a item-id={{shop_items[item].ITEM_ID}}
+                                class="ui-button buy-button disabled">Unavailable</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.buy-button').click(function () {
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
+                const item = $(this).attr('item-id');
+                user_purchase({{ user.id }}, item, parseInt($(this).parent().find('#quantity-input-text').text()));
+        });
+        });
+    </script>
+
+    {% if transaction is defined %}
+    <script>
+        $(document).ready(function () {
+            alert("{{transaction}}");
+        });
+    </script>
+    {% if transaction == "SUCCESS" %}
+    <script>
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+
+        Toast.fire({
+            icon: 'success',
+            title: 'You have successfully purchased one {{item_name}}!'
+        })
+    </script>
+    {% endif %} {% if transaction == "FAILED" %}
+    <script>
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+
+        Toast.fire({
+            icon: 'error',
+            title: '{{reason}}'
+        })
+    </script>
+    {% endif %} {% endif %}
+
+    <script>
+        async function updateShop() {
+            $.ajax({
+                url: "/shop",
+                type: "POST",
+                success: function (data) {
+                    for (let [ key, value ] of Object.entries(data)) {
+                        var item = value;
+                        var item_id = item.ITEM_ID;
+                        var item_quantity = item.ITEM_QUANTITY;
+                        var item_buyable = item.BUYABLE;
+                        var item_price = item.ITEM_PRICE;
+                        var item_status = item.ITEM_STATUS;
+
+                        if (item_status == "ACTIVE") {
+                            if (item_buyable == "TRUE") {
+                                if (item_quantity > 0) {
+                                    $('#qty-item-' + item_id).text(item_quantity);
+                                    $('a[item-id=' + item_id + ']').removeClass('disabled');
+                                    $('a[item-id=' + item_id + ']').removeClass('red-button');
+                                    $('a[item-id=' + item_id + ']').text('Buy');
+                                } else {
+                                    $('#qty-item-' + item_id).text(item_quantity);
+                                    $('a[item-id=' + item_id + ']').addClass('disabled');
+                                    $('a[item-id=' + item_id + ']').addClass('red-button');
+                                    $('a[item-id=' + item_id + ']').text('Out of Stock');
+                                }
+                            } else {
+                                $('#item-' + item_id).parent().parent().find('.buy-button').addClass('disabled');
+                                $('#item-' + item_id).parent().parent().find('.buy-button').text('Unavailable');
+                            }
+                        } else {
+                            $('#item-' + item_id).parent().parent().find('.buy-button').addClass('disabled');
+                            $('#item-' + item_id).parent().parent().find('.buy-button').text('Unavailable');
+                        }
+
+
+
+
+
+
+
+                    }
+                }
+            });
+        }
+
+
+        setInterval(updateShop, 1000);
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            let items = {{ shop_items| tojson}};
+            let userBalance = parseInt("{{balance}}".replace(',', ''));
+
+            $('.quantity-button').click(function () {
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
+
+                var item_id = $(this).parent().parent().parent().parent().attr('item-id');
+                var quantity = parseInt($(this).parent().find('#quantity-input-text').text());
+                var price = items[ item_id ].ITEM_PRICE;
+
+                if ($(this).attr('id') == 'quantity-button-plus') {
+                    quantity++;
+                    $(this).parent().find('#quantity-input-text').text(quantity);
+                } else {
+                    if (quantity > 1) {
+                        quantity--;
+                        $(this).parent().find('#quantity-input-text').text(quantity);
+                    }
+
+                }
+
+                $(this).parent().parent().parent().find('.price-value').text(price * quantity);
+
+                if (quantity > 1) {
+                    $(this).parent().find('#quantity-button-minus').removeClass('disabled');
+                } else {
+                    $(this).parent().find('#quantity-button-minus').addClass('disabled');
+                }
+
+                if (((price * quantity) + price) > userBalance) {
+                    $(this).parent().parent().parent().find('.buy-button').addClass('disabled');
+                } else {
+                    $(this).parent().parent().parent().find('.buy-button').removeClass('disabled');
+                }
+
+                if ((quantity + 1) > items[ item_id ].ITEM_QUANTITY || (price * quantity) > userBalance) {
+                    $(this).parent().find('#quantity-button-plus').addClass('disabled');
+                } else {
+                    $(this).parent().find('#quantity-button-plus').removeClass('disabled');
+                }
+
+
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

@@ -1,0 +1,147 @@
+<head>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/jpk1axn.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Snowstorm/20131208/snowstorm-min.js"></script>
+</head>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // fade in the dom on load
+    $(document).ready(function () {
+        $('body').css('display', 'none');
+        $('body').fadeIn(1000);
+    });
+</script>
+
+<div class="christmas-border">
+</div>
+<div class="nav">
+    <div class="titlebar-container">
+        <img id="title-image" src="{{ url_for('static', filename='favi.png') }}">
+        <a class="title" href="/">SOSABot</a>
+    </div>
+    <ul class="navbuttons">
+        <li class="navbuttoncontainer"><a class="navbutton" id="Stats" href="//URL.NET/stats">📊</a></li>
+        <li class="navbuttoncontainer"><a class="navbutton" id="Shop" href="//URL.NET/shop">🛒</a></li>
+        <li class="navbuttoncontainer"><a class="navbutton" id="Tycoon" href="//URL.NET/tycoon">🪙</a>
+        </li>
+        <li class="navbuttoncontainer"><a class="navbutton" id="For Sale" href="//URL.NET/listings">📰</a></li>
+        {% if user is defined %}
+        {% if user.id == 268974144593461248 %}
+        <li class="navbuttoncontainer"><a class="navbutton" id="Devtools" href="//URL.NET/devtools">🖥️</a></li>
+        {% endif %}
+        {% endif %}
+    </ul>
+
+    <script>
+        for (let i = 0; i < document.getElementsByClassName("navbutton").length; i++) {
+            tippy(document.getElementsByClassName("navbutton")[i], {
+                content: document.getElementsByClassName("navbutton")[i].id,
+                placement: "bottom",
+                theme: "material",
+                animation: "scale",
+                arrow: true,
+                inertia: true,
+                duration: [500, 200],
+                interactive: true,
+                interactiveBorder: 10,
+                maxWidth: 200,
+                popperOptions: {
+                    modifiers: [{
+                        name: 'offset',
+                        options: {
+                            offset: [0, 10],
+                        },
+                    },],
+                },
+            });
+        }
+    </script>
+
+    <div class="profile-container">
+        <div class="balance-indicator-container">
+            {% if user is defined %}
+            {% include 'coin.html' %}
+            <span class="balance-indicator">{{balance}}</span> {% else %}
+            <a class="balance-indicator" href="//URL.NET/login">Not Logged In</a> {% endif %}
+        </div>
+        {% if user is defined %}
+        <img class="profile-picture" src="{{ user.avatar_url }}" onclick="location.href = '\/\/URL.NET/me'"> {% else
+        %}
+        <i class="gg-profile profile-icon" onclick="location.href = '\/\/URL.NET/me';"></i> {% endif %}
+    </div>
+</div>
+
+<div class="floating-nav-container">
+    <div class="floating-nav-button-container">
+        <a class="floating-nav-button" href="//URL.NET/stats">📊</a>
+    </div>
+    <div class="floating-nav-button-container">
+        <a class="floating-nav-button" href="//URL.NET/shop">🛒</a>
+    </div>
+    <div class="floating-nav-button-container">
+        <a class="floating-nav-button" href="//URL.NET/tycoon">🪙</a>
+    </div>
+    <div class="floating-nav-button-container">
+        <a class="floating-nav-button" href="//URL.NET/listings">📰</a>
+    </div>
+</div>
+
+
+{% if user is defined %}
+<script>
+    async function updateBalance() {
+        $.ajax({
+            url: "/update_balance",
+            type: "POST",
+            data: {
+                "user_id": {{ user.id }}
+        },
+    success: function (data) {
+        if (data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") != $(".balance-indicator").text()) {
+
+            $(".balance-indicator").html(data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            $(".balance-indicator").css("animation", "balance-indicator .5s linear 1");
+            setTimeout(function () {
+                $(".balance-indicator").css("animation", "none");
+            }, 500);
+        }
+    }
+        });
+    }
+
+    setInterval(updateBalance, 1000);
+</script>
+{% endif %} {% if toast is defined %}
+<script>
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        iconColor: 'white',
+        customClass: {
+            popup: 'colored-toast'
+        },
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+
+    Toast.fire({
+        icon: 'error',
+        title: '{{toast.message}}'
+    })
+</script>
+{% endif %}

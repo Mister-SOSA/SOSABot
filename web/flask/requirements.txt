@@ -1,0 +1,2 @@
+discord.py==2.0.1
+Flask_Discord==0.1.69

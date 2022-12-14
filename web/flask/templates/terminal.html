@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Terminal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+    {#
+    <script src="{{ url_for('static', filename='/terminal_assets/powerglitch.min.js') }}"></script> #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/terminal_assets/screen.css') }}">
+    <script src="{{ url_for('static', filename='/terminal_assets/screen.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/terminal_assets/terminal_styles.css') }}">
+    <script src="{{ url_for('static', filename='/terminal_assets/terminal.js') }}"></script>
+</head>
+
+<body>
+    <div id="screen">
+
+        <div class="content glitch">
+            {% if floppy_status == 'ACTIVE' %}
+            <div class="login-container">
+
+                <div class="login">
+                    <h1>Terminal</h1>
+                    <span id='creds-rejected' class="hidden">Your credentials were rejected.</span>
+                    <input class="login-field" type="text" id="username" name="username" placeholder="Username"
+                        autocomplete="off" required>
+                    <input class="login-field" type="password" id="password" name="password" placeholder="Password"
+                        autocomplete="off" required>
+                    <button class="login-button" onclick="login()">Login</button>
+                </div>
+
+
+            </div>
+            <span class="hidden" id="invis-amount">{{ btc_amount }}</span>
+            <div class="loading hidden">
+                <h2>Logging in...</h2>
+                <div class="loading-bar">
+                    <div class="loading-bar-fill"></div>
+                </div>
+            </div>
+            <div class="terminal hidden">
+                <div class="console">
+                    <div class="console-content">
+                        <div class="console-content-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="terminal-input">
+
+                    <span class="input-content-text">DrJoe@terminal:~#</span>
+                    <input class="input-content-field" type="text" id="input" name="input" autocomplete="off"
+                        onkeydown="handleInput(event)">
+                </div>
+            </div>
+
+            {% else %}
+
+            <div class="not-mounted-container">
+
+                <span class="volume-not-mounted">Volume <b style="color: white;">(S:/)</b> was not found.<br><br>
+                    <p style="font-size: .8rem; color: red;">You
+                        don't
+                        have a Floppy Disk in
+                        your
+                        inventory.</p>
+                </span>
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+</script>

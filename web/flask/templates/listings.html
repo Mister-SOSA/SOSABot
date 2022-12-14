@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>chimpslist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='listings_assets/listings_styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='listings_assets/listings.js') }}"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">
+            <img src="{{ url_for('static', filename='listings_assets/listings-icon.png') }}" alt="logo" class="logo">
+            <h1>chimpslist</h1>
+        </div>
+        <a href='//URL.NET/me'>
+            < go back home</a>
+    </div>
+
+    <div class="listings-container">
+        <ul class="listings-list">
+            {% for listing in listings %}
+            {% if listing['status'] == 'OPEN' %}
+            <li>
+                <div class="listing">
+                    <div class="listing-content">
+                        <div class="listing-emoji-container">
+                            <span class="price-badge">{% include 'coin.html' %} {{ listing.buy_price }}</span>
+                            <span class="listing-emoji">{{ listing.item_emoji }}</span>
+                            <span class="quantity-badge">{{ listing.number_for_sale }}x</span>
+                        </div>
+                        <div class="listing-info">
+                            <h2 class="listing-title">{{ listing.number_for_sale }}x {{ listing.item_name }} <p
+                                    class="price-title">({%
+                                    include 'coin.html' %} {{ listing.buy_price }})</p>
+                            </h2>
+                            <p class="item-description">{{ listing.item_description }}</p>
+                            <p class="listing-description">Seller said: <i>"{{ listing.listing_desc }}"</i></p>
+                            <p class="listing-seller">posted by {{ listing.seller_name }} |
+                                {{listing.listing_age_string}}</p>
+                        </div>
+                    </div>
+                    {% if listing['seller_id'] == user.id %}
+                    <a timestamp="{{ listing.timestamp }}" class="delete-button">Remove</a>
+                    {% else %}
+                    <a timestamp={{listing.timestamp}} class="ui-button buy-button">Buy</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% for listing in listings %}
+            {% if listing['status'] == 'CLOSED' %}
+            <li>
+                <div class="listing closed">
+                    <div class="listing-content">
+                        <div class="listing-emoji-container">
+                            <span class="price-badge">{% include 'coin.html' %} {{ listing.buy_price }}</span>
+                            <span class="listing-emoji">{{ listing.item_emoji }}</span>
+                            <span class="quantity-badge">{{ listing.number_for_sale }}x</span>
+                        </div>
+                        <div class="listing-info">
+                            <h2 class="listing-title">(SOLD!) {{ listing.number_for_sale }}x {{ listing.item_name }} <p
+                                    class="price-title"></p>
+                                ({%
+                                include 'coin.html' %} {{ listing.buy_price }})</p>
+                            </h2>
+                            <p class="listing-description">{{ listing.listing_desc }}</p>
+                            <p class="listing-seller">posted by {{ listing.seller_name }} |
+                                {{listing.listing_age_string}}</p>
+                        </div>
+                    </div>
+                    <a class="ui-button buy-button sold">SOLD</a>
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+</body>
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.buy-button').click(function () {
+            if ($(this).hasClass('sold')) {
+                return;
+            }
+
+            const timestamp = $(this).attr('timestamp');
+            user_purchase({{ user.id }}, timestamp);
+    });
+
+    $('.delete-button').click(function () {
+        const timestamp = $(this).attr('timestamp');
+        user_delete({{ user.id }}, timestamp);
+            });
+        });
+</script>
+
+{% if transaction is defined %}
+<script>
+    $(document).ready(function () {
+        alert("{{transaction}}");
+    });
+</script>
+{% if transaction == "SUCCESS" %}
+<script>
+    alert('You have successfully purchased {{listing.number_for_sale}}x {{listing.item_name}} from {{listing.seller_name}} for {{listing.buy_price}} coins!');
+</script>
+{% endif %} {% if transaction == "FAILED" %}
+<script>
+    alert('{{error}}');
+</script>
+{% endif %} {% endif %}
+
+</html>

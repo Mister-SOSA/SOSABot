@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/invman_assets/styles.css') }}">
+    <link href='https://css.gg/search.css' rel='stylesheet'>
+
+    <title>SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        <div class="search-container">
+            <div class="search-bar">
+                <form
+                    onsubmit="window.location.href = '/inventorymanagement/' + document.getElementById('search-input').value; return false;"
+                    class="search-form">
+                    <input type="text" id="search-input" placeholder="User ID/Username">
+                    <button class="gg-search-button" type="submit"><i class='gg-search'></i></button>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="card card3">
+            <div class="card-header">
+                <h2>Inventory</h2>
+            </div>
+            <div class="inventory-list-container">
+                <ul class="inventory-list">
+                    {% for item in inventory %}
+
+                    <li class="inventory-item {{item['ITEM_RARITY']}}" id="item_num{{item['ITEM_ID']}}"
+                        style="background-color: {{item['BACKGROUND_COLOR']}};">
+                        <span class="item-emoji-icon">{{item['ITEM_EMOJI']}}</span>
+                        <div class="quantity-badge block-select">
+                            <span class="item-quantity">{{item['ITEM_QUANTITY']}}</span>
+                        </div>
+                        <script>
+                            tippy('#item_num' + {{ item['ITEM_ID'] }}, {
+                                allowHTML: true,
+                                content: `<div class="item-tooltip">
+                                                    <div class="item-tooltip-header">
+                                                        <span class="item-tooltip-name">{{item['ITEM_NAME']}}</span>
+                                                    </div>
+                                                    <div class="item-tooltip-body">
+                                                        <span class="item-tooltip-description">{{item['ITEM_DESCRIPTION']}}</span>
+                                                    </div>
+                                                    <div class="item-tooltip-footer">
+                                                        <span class="item-tooltip-value">Value: {% include 'coin.html' %} {{item['ITEM_PRICE']}}</span>
+                                                <button class="item-tooltip-button">Sell</button>
+                                                </div>
+                                                `,
+                                animation: 'scale',
+                                theme: 'light',
+                                placement: 'top',
+                                interactive: true,
+                                interactiveBorder: 10,
+                                maxWidth: 300,
+                            });
+                        </script>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

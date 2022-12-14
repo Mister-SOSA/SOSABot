@@ -1,0 +1,156 @@
+<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
+<div class="north-pole-sign">
+    <img src="{{url_for('static', filename='post-sign.png')}}" alt="North Pole Sign" />
+</div>
+<div class="snow-pile">
+    <div class="snow_grown_layer_2"></div>
+    <div class="snow_grown_layer_1"></div>
+</div>
+
+
+<style>
+    .north-pole-sign {
+        position: fixed;
+        bottom: 2rem;
+        right: 0rem;
+        height: 10rem;
+        width: 10rem;
+        z-index: 1000;
+        transform: rotate(10deg);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .north-pole-sign>img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(5px 5px 5px #222);
+        overflow: hidden;
+        animation: nudge-rock 5s infinite ease-in-out;
+    }
+
+    .snow-pile {
+        position: absolute;
+        bottom: 0;
+        overflow: hidden;
+
+    }
+
+    .snow-pile>* {
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .snow_grown_layer_1 {
+        position: fixed;
+        bottom: -1rem;
+        left: 0;
+        right: 0;
+        height: 80px;
+        z-index: 1050;
+    }
+
+    .snow_grown_layer_1::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 80%;
+        height: 250%;
+        border-radius: 60%;
+        background-color: #fff;
+        left: -20%;
+        box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .snow_grown_layer_1::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 80%;
+        height: 250%;
+        border-radius: 60%;
+        background-color: #fff;
+        right: -20%;
+        box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .snow_grown_layer_2 {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        height: 50px;
+        z-index: 950;
+    }
+
+    .snow_grown_layer_2::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 40%;
+        height: 250%;
+        border-radius: 60%;
+        background-color: #ded3fb;
+        left: 50%;
+        transform: translate(-50%, 0);
+        box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .snow_grown_layer_2::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 50%;
+        height: 250%;
+        border-radius: 60%;
+        background-color: #ded3fb;
+        right: -20%;
+        box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+    }
+
+    @keyframes nudge-rock {
+        0% {
+            transform-origin: bottom center;
+            transform: rotate(0deg);
+        }
+
+        12% {
+            transform-origin: bottom center;
+            transform: rotate(5deg);
+        }
+
+        25% {
+            transform-origin: bottom center;
+            transform: rotate(-5deg);
+        }
+
+        38% {
+            transform-origin: bottom center;
+            transform: rotate(5deg);
+        }
+
+        50% {
+            transform-origin: bottom center;
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform-origin: bottom center;
+            transform: rotate(0deg);
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('.north-pole-sign').click(function () {
+            window.location.href = '\/\/URL.NET/christmas/';
+        });
+    });
+</script>
+
+<script>
+    twemoji.parse(document);
+</script>

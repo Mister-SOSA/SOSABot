@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/login_assets/login_styles.css') }}">
+
+    <title>Login | SOSABot</title>
+</head>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+
+        <div class="login-window">
+            <div class="login-window-header">
+                <h1>Log in</h1>
+            </div>
+            <form class="login-window-body" action="/login" method="post">
+                <div class="login-window-body-input username-input-container">
+                    <input id="username-input" class="login-field" type="text" name="username" placeholder="Username" required>
+                    <span id="discriminator">#</span>
+                    <input id="discriminator-input" class="login-field" type="text" name="discriminator" placeholder="0000" required>
+                </div>
+                <div class="login-window-body-input" id="password-input-container">
+                    <input id="password-input" class="login-field" type="password" name="password" placeholder="Password" required>
+                    <span id="password-note">(not your Discord password)</span>
+                </div>
+
+                <input class="login-button" type="submit" value="Log in">
+            </form>
+            <input class="sign-up-button" type="button" onclick="location.href = 'register'" value="Link to Discord">
+            <span id="first-time-note">Haven't logged in before?</span>
+        </div>
+
+    </div>
+
+    </div>
+
+
+</body>
+
+</html>
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

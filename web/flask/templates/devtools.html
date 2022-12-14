@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/devtools_assets/devtools.css') }}">
+
+    <title>SOSABot</title>
+</head>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        <div class="gridbox">
+            <div class="card" id="card1">
+                <div class="tool-emoji">📜</div>
+                <span class="tool-title">Transaction Log</span>
+            </div>
+            <div class="card" id="card2">
+                <div class="tool-emoji">🎒</div>
+                <span class="tool-title">Inventory Management</span>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        $("#card1").click(function () {
+            window.location.href = "//URL.NET/transactionlog";
+        });
+
+        $("#card2").click(function () {
+            window.location.href = "//URL.NET/inventorymanagement";
+        });
+    });
+</script>
+
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

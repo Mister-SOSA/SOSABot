@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_styles.css') }}">
+
+    <title>SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <img src="{{ url_for('static', filename='coin.webp') }}" alt="Monkey Coin" class="title-coin">
+            <h1 class="main-page-title">SOSABot</h1>
+            <h2 class="main-page-subtitle">The finest institution in the Western World</h2>
+        </div>
+        <div class="main-container">
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>

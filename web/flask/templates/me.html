@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href='https://css.gg/profile.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/me_assets/me.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='coin.webp') }}" type="image/x-icon">
+
+    <title>SOSABot</title>
+</head>
+
+<div class="loading-container">
+    {% include 'loading.html' %}
+</div>
+
+
+<body>
+
+    <div class="navbar">
+        {% include 'nav.html' %}
+    </div>
+
+    <div class="content">
+        <div class='dashboard'>
+            <h1 class='welcome-message'>Welcome, {{user.name}}</h1>
+
+            <div class="gridbox">
+                <div class="card card1">
+                    <div class="card-body">
+                        <div class="profile">
+                            <div class="profile-image">
+                                <img class="profile-img" src="{{user.avatar_url}}" alt="Profile Image">
+                            </div>
+                            <div class="profile-info">
+                                <h3>{{user.name}}#{{user.discriminator}}</h3>
+                                <p>Balance: {% include 'coin.html' %} {{balance}}</p>
+                                <p>Highest Balance: {% include 'coin.html' %} {{gambling_stats['highest_balance']}}</p>
+                                <div class="daily-income">
+                                    <p>Daily Payout: {% include 'coin.html' %} {{ daily_payout }}</p>
+                                    <button class="upgrade-button"
+                                        onclick="window.location.href = '\/\/URL.NET/tycoon'">Upgrade
+                                        Tycoon</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card card3">
+                    <div class="card-header">
+                        <h2>Inventory</h2>
+                    </div>
+                    <div class="inventory-list-container">
+                        <ul class="inventory-list">
+                            {% for item in inventory %}
+
+                            <li class="inventory-item {{item['ITEM_RARITY']}}" id="item_num{{item['ITEM_ID']}}"
+                                style="background-color: {{item['BACKGROUND_COLOR']}};">
+                                <span class="item-emoji-icon">{{item['ITEM_EMOJI']}}</span>
+                                <div class="quantity-badge block-select">
+                                    <span class="item-quantity">{{item['ITEM_QUANTITY']}}</span>
+                                </div>
+                                <script>
+                                    // With the above scripts loaded, you can call `tippy()` with a CSS
+                                    // selector and a `content` prop:
+                                    tippy('#item_num' + {{ item['ITEM_ID'] }}, {
+                                        allowHTML: true,
+                                        content: `<div class="item-tooltip">
+                                                    <div class="item-tooltip-header">
+                                                        <span class="item-tooltip-name">{{item['ITEM_NAME']}}</span>
+                                                    </div>
+                                                    <div class="item-tooltip-body">
+                                                        <span class="item-tooltip-description">{{item['ITEM_DESCRIPTION']}}</span>
+                                                    </div>
+                                                    <div class="item-tooltip-footer">
+                                                        <span class="item-tooltip-value">Value: {% include 'coin.html' %} {{item['ITEM_PRICE']}}</span>
+                                                <button class="item-tooltip-button">Sell</button>
+                                                </div>
+                                                `,
+                                        animation: 'scale',
+                                        theme: 'light',
+                                        placement: 'top',
+                                        interactive: true,
+                                        interactiveBorder: 10,
+                                        maxWidth: 300,
+                                    });
+                                </script>
+                            </li>
+
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+
+                </div>
+                <div class="card card2">
+                    <div class="card-header">
+                        <h2>Gambling</h2>
+                    </div>
+                    <div class="card2-body">
+                        <div class="left-side side">
+                            {%if gambling_stats['net_winnings']|int
+                            <=0 %} <p>Net Winnings: <b data-negative>{% include 'coin.html' %}
+                                    {{"{:,.0f}".format(gambling_stats['net_winnings'])}}</b></p>
+                                {%elif gambling_stats['net_winnings']|int > 0%}
+                                <p>Net Winnings: <b data-positive>{% include 'coin.html' %}
+                                        {{"+{:,.0f}".format(gambling_stats['net_winnings'])}}</b></p>
+                                {%endif%}
+                                <p>Games Played: <b>{{gambling_stats['games_played']}}</b></p>
+                                <p>Favorite Game: <b>{{gambling_stats['favorite_game']}}</b></p>
+                                <p>Winrate: <b>{{gambling_stats['winrate']}}</b></p>
+                        </div>
+                        <div class="right-side side">
+                            <p>Biggest Win: <b data-positive>{% include 'coin.html' %}
+                                    +{{gambling_stats['biggest_win']}}</b></p>
+                            <p>Biggest Loss: <b data-negative>{% include 'coin.html' %}
+                                    {{gambling_stats['biggest_loss']}}</b></p>
+                            {%if gambling_stats['average_winnings']|int
+                            <=0 %} <p>Average Winnings: <b data-negative>{% include 'coin.html' %}
+                                    {{"{:,.0f}".format(gambling_stats['average_winnings'])}}</b></p>
+                                {%elif gambling_stats['average_winnings']|int > 0%}
+                                <p>Average Winnings: <b data-positive>{% include 'coin.html' %}
+                                        {{"+{:,.0f}".format(gambling_stats['average_winnings'])}}</b></p>
+                                {%endif%}
+                                <p>Average Bet: <b>{% include 'coin.html' %} {{gambling_stats['average_bet']}}</b></p>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <div class="card card4">
+                    <div class="card-header">
+                        <h2>Balance History</h2>
+                    </div>
+                    <div class="chart-container" style="width: 100%; height: 100%;">
+                        <canvas id="myChart1" style="max-width: 100%;"></canvas>
+                        <script>
+                            let balanceData = {{ balance_history| tojson}};
+
+                            let dates = [];
+                            let balances = [];
+
+                            Object.keys(balanceData).forEach(function (key) {
+                                dates.push(key);
+                                balances.push(balanceData[key]);
+                            });
+
+                            let color = '#ffffff';
+
+                            if (balances[balances.length - 1] > balances[balances.length - 2]) {
+                                color = '#3fd158';
+                            } else if (balances[balances.length - 1] < balances[balances.length - 2]) {
+                                color = '#fd453a';
+                            }
+
+                            console.log(dates);
+                            console.log(balances);
+
+                            let ctx = document.getElementById('myChart1').getContext('2d');
+                            const myChart1 = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: dates,
+                                    datasets: [{
+                                        label: 'Coin Balance',
+                                        data: balances,
+                                        backgroundColor: [
+                                            color
+                                        ],
+                                        borderColor: [
+                                            color
+                                        ],
+                                        borderWidth: 2,
+                                        tension: 0.1,
+                                        pointRadius: 5,
+                                        pointHoverRadius: 10,
+                                        cubicInterpolationMode: 'monotone'
+                                    }]
+                                },
+                                options: {
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    },
+                                    responsive: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: false,
+                                            ticks: {
+                                                userCallback: function (value, index, values) {
+                                                    value = value.toString();
+                                                    value = value.split(/(?=(?:...)*$)/);
+                                                    value = value.join(',');
+                                                    return '🪙 ' + value;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class=" card card5">
+                    <div class="card-header">
+                        <h2>Gambling Net by Day</h2>
+                    </div>
+                    <canvas id="myChart2" width="400" height="200"></canvas>
+                    <script>
+                        let netDaily = {{ net_gambling_by_day| tojson}};
+
+                        let day = [];
+                        let netWinnings = [];
+
+                        Object.keys(netDaily).forEach(function (key) {
+                            day.push(key);
+                            netWinnings.push(netDaily[key]);
+                        });
+
+                        if (netWinnings[netWinnings.length] > 0) {
+                            color = '#3fd158';
+                        } else if (netWinnings[netWinnings.length] < 0) {
+                            color = '#fd453a';
+                        } else {
+                            color = '#ffffff';
+                        }
+
+
+                        let gambling_winnings_element = document.getElementById('myChart2').getContext('2d');
+                        const gambling_winnings_chart = new Chart(gambling_winnings_element, {
+                            type: 'bar',
+                            data: {
+                                labels: day,
+                                datasets: [{
+                                    label: 'Net Winnings by Day',
+                                    data: netWinnings,
+                                    backgroundColor: [
+                                        color
+                                    ],
+                                    borderColor: [
+                                        color
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="card card6">
+                    <div class="card-header">
+                        <h2>Income Distribution</h2>
+                    </div>
+                    <canvas id="myChart3" width="400" height="200"></canvas>
+                    <script>
+                        let earningsDist = {{ earnings_distribution| tojson}};
+
+                        let source = [];
+                        let coins = [];
+
+                        Object.keys(earningsDist).forEach(function (key) {
+                            source.push(key);
+                            coins.push(earningsDist[key]);
+                        });
+
+                        let balance_history_element = document.getElementById('myChart3').getContext('2d');
+                        const balance_history_chart = new Chart(balance_history_element, {
+                            type: 'doughnut',
+                            data: {
+                                labels: source,
+                                datasets: [{
+                                    label: 'Income Distribution',
+                                    data: coins,
+                                    backgroundColor: [
+                                        '#fd453a',
+                                        '#0c84ff',
+                                        '#fd3760',
+                                        '#ffd608',
+                                        '#3fd158',
+                                        '#66d4cf'
+                                    ],
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                let label = context.label || '';
+                                                let value = context.parsed;
+
+                                                return label + ': ' + value + ' coins' + ' (' + (value / coins.reduce((a, b) => a + b, 0) * 100).toFixed(2) + '%)';
+                                            }
+                                        }
+                                    },
+                                    hoverOffset: 25
+                                }]
+                            },
+
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'right',
+                                        labels: {
+                                            boxWidth: 10,
+                                            padding: 20
+                                        }
+                                    }
+                                },
+                                radius: 100,
+                                aspectRatio: 2 / 1
+                            }
+
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <div class="card card7">
+                <div class="card-header">
+                    <h2>Financial Statement</h2>
+                </div>
+
+                <div class="tbl-header">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <thead>
+                            <tr>
+                                <th>Transaction Type</th>
+                                <th>Date & Time</th>
+                                <th>Amount</th>
+                                <th>Transaction Party</th>
+                                <th>Description</th>
+                                <th>Transaction ID</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tbody>
+                            {% for tran in transaction_list %} {% if tran.AMOUNT|int
+                            < 0%} <tr data-negative shade-negative>
+                                <td>{{tran.TRANSACTION_TYPE}}</td>
+                                <td>{{tran.TIMESTAMP_PARSED}}</td>
+                                <td><b class="amount-indicator">{% include 'coin.html' %}
+                                        {{"{:,.0f}".format(tran.AMOUNT)}}</b></td>
+                                <td>{{tran.SENDER_USERNAME}}</td>
+                                <td>{{tran.NOTE}}</td>
+                                <td>{{tran.TIMESTAMP}}</td>
+                                </tr>
+                                {% else %}
+                                <tr data-positive>
+                                    <td>{{tran.TRANSACTION_TYPE}}</td>
+                                    <td>{{tran.TIMESTAMP_PARSED}}</td>
+                                    <td><b class="amount-indicator">{% include 'coin.html' %}
+                                            +{{"{:,.0f}".format(tran.AMOUNT)}}</b></td>
+                                    <td>{{tran.SENDER_USERNAME}}</td>
+                                    <td>{{tran.NOTE}}</td>
+                                    <td>{{tran.TIMESTAMP}}</td>
+                                </tr>
+                                {% endif %} {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+</body>
+
+</html>
+
+<div class="footer_script">
+    {% include 'footer_script.html' %}
+</div>
