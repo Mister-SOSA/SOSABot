@@ -14,6 +14,7 @@ Let's get the boring stuff out of the way. The bot has application commands for 
 ## Economy
 Both the bot and the Flask application sustain the made up pseudo-economy based on "Monkeycoin."
 The Monkeycoin is the currency used to play gambling games, purchase items, pay other users, and more.
+The theme came from a Dall-E generated image of King Kong throwing cash in the air.
 
 ### Payments
 Users can pay each other by invoking the `/pay` command. The command will perform the appropriate checks to ensure that the transaction is valid, and will manipulate the database accordingly.
