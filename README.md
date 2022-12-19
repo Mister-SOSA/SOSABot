@@ -196,6 +196,7 @@ It has certainly come a long way.
 - HTML
 - CSS
 - JavaScript
+- AJAX
 - Threading
 - Photoshop
 - Illustrator
