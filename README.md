@@ -1,7 +1,7 @@
 # SOSABot
 A Discord bot written using PyCord. Features moderation, economy, and more. One of my more recent solo projects.
 
-> :warning: An abundance of this code is written specifically for my use case. Many of the features are specific to my guild and database schema. This repo is mostly a showcase of what is possible with the Discord API. Feel free to pull any features that you want to use in your own bot.
+> :warning: An abundance of this code is written specifically for my use case. Many of the features are specific to my guild and database schema. There wasn't initially a plan to publish this project, so you'll observe a lack of abstraction in many places. This repo is mostly a showcase of what is possible with the Discord API. Feel free to pull any features that you want to use in your own bot.
 
 # 💫 Features
 ## Application Commands
